@@ -20,7 +20,7 @@ namespace TradingSpot
                     int index = -1;
                     for (int i = 0; i < Find.VisibleMap.listerBuildings.allBuildingsColonist.Count; i++)
                     {
-                        if (Find.VisibleMap.listerBuildings.allBuildingsColonist[i].Label == "trading spot")
+                        if (Find.VisibleMap.listerBuildings.allBuildingsColonist[i].def.defName.Equals("TradingSpot"))
                         {
                             flag = true;
                             index = i;
@@ -29,7 +29,7 @@ namespace TradingSpot
                     if (flag)
                     {
                         Find.VisibleMap.listerBuildings.allBuildingsColonist[index].Destroy(0);
-                        Messages.Message("Only one trading spot allowed per map.  Removing old spot.", MessageSound.Negative);
+                        Messages.Message("TradingSpot.AlreadyOnMap".Translate(), MessageSound.Negative);
                     }
                 }
             }
