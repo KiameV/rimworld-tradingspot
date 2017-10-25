@@ -29,7 +29,7 @@ namespace TradingSpot
                     if (flag)
                     {
                         Find.VisibleMap.listerBuildings.allBuildingsColonist[index].Destroy(0);
-                        Messages.Message("TradingSpot.AlreadyOnMap".Translate(), MessageSound.Negative);
+                        Messages.Message("TradingSpot.AlreadyOnMap".Translate(), MessageTypeDefOf.NegativeEvent);
                     }
                 }
             }
