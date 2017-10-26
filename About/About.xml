@@ -1,14 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-
-    <name>[A17] Trading Spot</name>
-
+    <name>Trading Spot - A18</name>
     <author>Kiame Vivacity</author>
-
     <url></url>
-
     <targetVersion>0.18.1700</targetVersion>
-
 <description>
 A designated spot for traders to stop at.
 
