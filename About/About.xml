@@ -1,15 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-    <name>Trading Spot - A18</name>
+    <name>Trading Spot - B18</name>
     <author>Kiame Vivacity</author>
     <url></url>
-    <targetVersion>0.18.1700</targetVersion>
+    <targetVersion>0.18.0</targetVersion>
 <description>
 A designated spot for traders to stop at.
 
 Thank you to the translators!
 -Ɲơɴɑɱɛ for German
 -MossieuLeblanc for French
+-Proxyer for Japanese
 
 Original Author: TheUbie
 </description>
