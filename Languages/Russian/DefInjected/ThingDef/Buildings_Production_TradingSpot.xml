@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <TradingSpot.label>торговое место</TradingSpot.label>
+  <TradingSpot.description>Обозначает место, где торговцы станут останавливаться при посещении поселения.</TradingSpot.description>
+  <TradingSpot_Blueprint.label>торговое место (проект)</TradingSpot_Blueprint.label>
+  <TradingSpot_Frame.label>торговое место (обустраивается)</TradingSpot_Frame.label>
+  <TradingSpot_Frame.description>Обозначает место, где торговцы станут останавливаться при посещении поселения.</TradingSpot_Frame.description>
+
+</LanguageData>
