@@ -12,24 +12,15 @@ namespace TradingSpot
 
         public TradingSpot()
         {
-            checked
+            if (Find.VisibleMap != null)
             {
-                if (Find.VisibleMap != null)
+                foreach (Building b in Find.VisibleMap.listerBuildings.allBuildingsColonist)
                 {
-                    bool flag = false;
-                    int index = -1;
-                    for (int i = 0; i < Find.VisibleMap.listerBuildings.allBuildingsColonist.Count; i++)
+                    if (b.def.defName.Equals("TradingSpot"))
                     {
-                        if (Find.VisibleMap.listerBuildings.allBuildingsColonist[i].def.defName.Equals("TradingSpot"))
-                        {
-                            flag = true;
-                            index = i;
-                        }
-                    }
-                    if (flag)
-                    {
-                        Find.VisibleMap.listerBuildings.allBuildingsColonist[index].Destroy(0);
+                        b.Destroy(DestroyMode.Vanish);
                         Messages.Message("TradingSpot.AlreadyOnMap".Translate(), MessageTypeDefOf.NegativeEvent);
+                        break;
                     }
                 }
             }
