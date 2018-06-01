@@ -1,7 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ModSyncNinjaData>
-	<ID>d359bd57-a306-42a3-9d0e-c6e0d0ee0d4b</ID>
-	<ModName>Trading Spot</ModName>
-	<Version>0.18.1.1</Version>
-	<SaveBreaking>false</SaveBreaking>
+  <ID>d359bd57-a306-42a3-9d0e-c6e0d0ee0d4b</ID>
+  <ModName>Trading Spot</ModName>
+  <Version>0.18.1.1</Version>
+  <SaveBreaking>False</SaveBreaking>
+  <Host name="Github">
+    <Owner>KiameV</Owner>
+    <Project>rimworld-tradingspot</Project>
+    <DownloadFrom>ModSyncReleases</DownloadFrom>
+    <Branch>master</Branch>
+  </Host>
 </ModSyncNinjaData>
