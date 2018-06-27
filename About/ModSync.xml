@@ -2,7 +2,7 @@
 <ModSyncNinjaData>
   <ID>d359bd57-a306-42a3-9d0e-c6e0d0ee0d4b</ID>
   <ModName>Trading Spot</ModName>
-  <Version>0.18.1.1</Version>
+  <Version>1.0.0.1</Version>
   <SaveBreaking>False</SaveBreaking>
   <Host name="Github">
     <Owner>KiameV</Owner>

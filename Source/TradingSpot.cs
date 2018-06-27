@@ -12,9 +12,9 @@ namespace TradingSpot
 
         public TradingSpot()
         {
-            if (Find.VisibleMap != null)
+            if (Find.CurrentMap != null)
             {
-                foreach (Building b in Find.VisibleMap.listerBuildings.allBuildingsColonist)
+                foreach (Building b in Find.CurrentMap.listerBuildings.allBuildingsColonist)
                 {
                     if (b.def.defName.Equals("TradingSpot"))
                     {
