@@ -3,9 +3,9 @@
 
   <TradingSpot.label>トレード地点</TradingSpot.label>
   <TradingSpot.description>トレーダーがあなたのコロニーを訪れた時に、彼らが停止する場所を指定します。</TradingSpot.description>
-  <TradingSpot_Blueprint.label>トレード地点(設計)</TradingSpot_Blueprint.label>
-  <TradingSpot_Frame.label>トレード地点(施工)</TradingSpot_Frame.label>
-  <TradingSpot_Frame.description>トレーダーがあなたのコロニーを訪れた時に、彼らが停止する場所を指定します。</TradingSpot_Frame.description>
+  <Blueprint_TradingSpot.label>トレード地点(設計)</Blueprint_TradingSpot.label>
+  <Frame_TradingSpot.label>トレード地点(施工)</Frame_TradingSpot.label>
+  <Frame_TradingSpot.description>トレーダーがあなたのコロニーを訪れた時に、彼らが停止する場所を指定します。</Frame_TradingSpot.description>
 
 
 </LanguageData>
