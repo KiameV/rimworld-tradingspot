@@ -12,7 +12,7 @@ namespace TradingSpot
 
         public TradingSpot()
         {
-            if (Find.CurrentMap != null)
+            if (Current.Game.CurrentMap != null)
             {
                 foreach (Building b in Find.CurrentMap.listerBuildings.allBuildingsColonist)
                 {
