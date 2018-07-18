@@ -14,7 +14,7 @@ namespace TradingSpot
         {
             if (Current.Game.CurrentMap != null)
             {
-                foreach (Building b in Find.CurrentMap.listerBuildings.allBuildingsColonist)
+                foreach (Building b in Current.Game.CurrentMap.listerBuildings.allBuildingsColonist)
                 {
                     if (b.def.defName.Equals("TradingSpot"))
                     {
