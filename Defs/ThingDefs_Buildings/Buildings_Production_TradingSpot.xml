@@ -11,6 +11,7 @@
 		</graphicData>
 		<altitudeLayer>FloorEmplacement</altitudeLayer>
 		<statBases>
+		    <Flammability>0.0</Flammability>
 			<WorkToBuild>0</WorkToBuild>
 		</statBases>
 		<scatterableOnMapGen>false</scatterableOnMapGen>
