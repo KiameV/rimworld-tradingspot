@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Reflection;
 using Verse;
 using Verse.AI.Group;
+using System;
 
 namespace TradingSpot
 {
     public class TradingSpot : Building
     {
         private int count = 0;
+        private readonly bool hasHospitality;
 
         public TradingSpot()
         {
@@ -22,6 +24,16 @@ namespace TradingSpot
                         Messages.Message("TradingSpot.AlreadyOnMap".Translate(), MessageTypeDefOf.NegativeEvent);
                         break;
                     }
+                }
+            }
+
+            foreach(ModMetaData d in ModsConfig.ActiveModsInLoadOrder)
+            {
+                this.hasHospitality = false;
+                if (d.Name.EqualsIgnoreCase("hospitality"))
+                {
+                    this.hasHospitality = true;
+                    break;
                 }
             }
         }
@@ -39,7 +51,7 @@ namespace TradingSpot
                     for (int i = 0; i < lords.Count; i++)
                     {
                         Lord lord = lords[i];
-                        if (lord.LordJob is LordJob_TradeWithColony)
+                        if (lord.LordJob is LordJob_TradeWithColony || this.CheckVisitor(lord.LordJob))
                         {
                             FieldInfo field = lord.LordJob.GetType().GetField("chillSpot", BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
                             IntVec3 intVec = (IntVec3)field.GetValue(lord.LordJob);
@@ -80,6 +92,19 @@ namespace TradingSpot
                     }
                 }
             }
+        }
+
+        private bool CheckVisitor(LordJob lordJob)
+        {
+            if (hasHospitality || !Settings.VisitorsGoToTradeSpot)
+                return false;
+
+            if (lordJob is LordJob_VisitColony)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
