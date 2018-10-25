@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
-	<TradingSpot.AlreadyOnMap>Tylko jeden punkt handlowy dozwolony na mapę. Usuwanie starego miejsca.</TradingSpot.AlreadyOnMap>
+	<TradingSpot>Trading Spot</TradingSpot>
+	<TradingSpot.AlreadyOnMap>Tylko jedno miejsce dla handlarzy dozwolone na mapę. Usuwanie starego miejsca.</TradingSpot.AlreadyOnMap>
+	<TradingSpot.VisitorsGoToTradeSpot>Goście udają się na miejsce dla handlarzy</TradingSpot.VisitorsGoToTradeSpot>
 </LanguageData>
