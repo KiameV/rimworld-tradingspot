@@ -1,4 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
+	<TradingSpot>Trading Spot</TradingSpot>
 	<TradingSpot.AlreadyOnMap>Only one trading spot allowed per map. Removing old spot.</TradingSpot.AlreadyOnMap>
+	<TradingSpot.VisitorsGoToTradeSpot>Visitors go to Trading Spot</TradingSpot.VisitorsGoToTradeSpot>
 </LanguageData>
