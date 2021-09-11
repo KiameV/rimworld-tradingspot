@@ -10,21 +10,31 @@
 			<graphicClass>Graphic_Single</graphicClass>
 		</graphicData>
 		<altitudeLayer>FloorEmplacement</altitudeLayer>
+		<passability>Standable</passability>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
 		<statBases>
 		    <Flammability>0.0</Flammability>
-			<WorkToBuild>0</WorkToBuild>
+			<WorkToBuild>10</WorkToBuild>
+			<Beauty>0</Beauty>
 		</statBases>
 		<scatterableOnMapGen>false</scatterableOnMapGen>
 		<useHitPoints>False</useHitPoints>
 		<designationCategory>Misc</designationCategory>
-		<passability>Standable</passability>
 		<building>
 			<sowTag>SupportPlantsOnly</sowTag>
+			<isInert>true</isInert>
 			<canPlaceOverImpassablePlant>false</canPlaceOverImpassablePlant>
 			<ai_chillDestination>false</ai_chillDestination>
 			<artificialForMeditationPurposes>false</artificialForMeditationPurposes>
+			<isEdifice>false</isEdifice>
+			<blueprintGraphicData>
+				<texPath>Things/Building/Misc/PartySpot</texPath>
+			</blueprintGraphicData>
 		</building>
 		<designationHotKey>Misc12</designationHotKey>
 		<tickerType>Normal</tickerType>
+		<canOverlapZones>True</canOverlapZones>
+		<clearBuildingArea>false</clearBuildingArea>
 	</ThingDef>
 </Defs>
