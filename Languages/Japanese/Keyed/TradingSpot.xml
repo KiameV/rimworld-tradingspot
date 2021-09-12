@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <TradingSpot>Trading Spot</TradingSpot>
   <TradingSpot.AlreadyOnMap>マップごとに1ヶ所のトレード地点だけが許可されています。 以前の場所は削除されます。</TradingSpot.AlreadyOnMap>
   <TradingSpot.VisitorsGoToTradeSpot>訪問者をトレード地点に向かわせる</TradingSpot.VisitorsGoToTradeSpot>
+  <TradingSpot.RequiresWorkToPlace>設置するのに作業が必要</TradingSpot.RequiresWorkToPlace>
 
 </LanguageData>
