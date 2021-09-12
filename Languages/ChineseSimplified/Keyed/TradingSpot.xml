@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <TradingSpot>交易点</TradingSpot>
+  <TradingSpot.AlreadyOnMap>每张地图仅允许一个交易点，已移除旧交易点。</TradingSpot.AlreadyOnMap>
+  <TradingSpot.VisitorsGoToTradeSpot>商队前往交易点</TradingSpot.VisitorsGoToTradeSpot>
+
+</LanguageData>

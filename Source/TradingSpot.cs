@@ -4,6 +4,7 @@ using System.Reflection;
 using Verse;
 using Verse.AI.Group;
 using System;
+using RimWorld.Planet;
 
 namespace TradingSpot
 {
@@ -105,6 +106,17 @@ namespace TradingSpot
             }
 
             return false;
+        }
+    }
+    public class WorldComp : WorldComponent
+    {
+        public WorldComp(World world) : base(world) { }
+        public override void FinalizeInit()
+        {
+            base.FinalizeInit();
+            var mod = LoadedModManager.GetMod(typeof(SettingsController));
+            var s = mod.GetSettings<Settings>();
+            s.ApplyWorkSetting();
         }
     }
 }

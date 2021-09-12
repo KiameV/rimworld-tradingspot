@@ -3,4 +3,5 @@
 	<TradingSpot>Trading Spot</TradingSpot>
 	<TradingSpot.AlreadyOnMap>Only one trading spot allowed per map. Removing old spot.</TradingSpot.AlreadyOnMap>
 	<TradingSpot.VisitorsGoToTradeSpot>Visitors go to Trading Spot</TradingSpot.VisitorsGoToTradeSpot>
+	<TradingSpot.RequiresWorkToPlace>Requires Work To Place</TradingSpot.RequiresWorkToPlace>
 </LanguageData>

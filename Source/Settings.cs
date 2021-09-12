@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace TradingSpot
@@ -17,7 +18,11 @@ namespace TradingSpot
 
         public override void DoSettingsWindowContents(Rect inRect)
         {
-            Settings.DoSettingsWindowContents(inRect);
+            Listing_Standard l = new Listing_Standard();
+            l.Begin(new Rect(inRect.x, inRect.y, 300, 100));
+            l.CheckboxLabeled("TradingSpot.VisitorsGoToTradeSpot".Translate(), ref Settings.VisitorsGoToTradeSpot);
+            l.CheckboxLabeled("TradingSpot.RequiresWorkToPlace".Translate(), ref Settings.RequiresWorkToPlace);
+            l.End();
         }
 
         public override void WriteSettings()
@@ -29,20 +34,36 @@ namespace TradingSpot
     public class Settings : ModSettings
     {
         public static bool VisitorsGoToTradeSpot = true;
+        public static bool RequiresWorkToPlace = true;
 
         public override void ExposeData()
         {
             base.ExposeData();
 
             Scribe_Values.Look<bool>(ref VisitorsGoToTradeSpot, "TradingSpot.VisitorsGotoTradeSpot", true, false);
+            Scribe_Values.Look<bool>(ref RequiresWorkToPlace, "TradingSpot.RequiresWorkToPlace", true, false);
+
+            if (DefOf.TradingSpot != null)
+                this.ApplyWorkSetting();
         }
 
-        public static void DoSettingsWindowContents(Rect rect)
+        public void ApplyWorkSetting()
         {
-            Listing_Standard l = new Listing_Standard();
-            l.Begin(new Rect(0, 80, 300, 100));
-            l.CheckboxLabeled("TradingSpot.VisitorsGoToTradeSpot".Translate(), ref VisitorsGoToTradeSpot);
-            l.End();
+            foreach (var s in DefOf.TradingSpot.statBases)
+            {
+                if (s.stat == StatDefOf.WorkToBuild)
+                {
+                    s.value = (RequiresWorkToPlace) ? 10 : 0;
+                    break;
+
+                }
+            }
         }
+    }
+
+    [RimWorld.DefOf]
+    public static class DefOf
+    {
+        public static ThingDef TradingSpot;
     }
 }
