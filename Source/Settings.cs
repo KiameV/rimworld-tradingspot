@@ -1,9 +1,21 @@
-﻿using RimWorld;
+﻿using HarmonyLib;
+using RimWorld;
+using System.Reflection;
 using UnityEngine;
 using Verse;
 
 namespace TradingSpot
 {
+    [StaticConstructorOnStartup]
+    class Main
+    {
+        static Main()
+        {
+            var harmony = new Harmony("com.tradingspot.rimworld.mod");
+            harmony.PatchAll(Assembly.GetExecutingAssembly());
+        }
+    }
+
     public class SettingsController : Mod
     {
         public SettingsController(ModContentPack content) : base(content)

@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ModSyncNinjaData>
-  <ModName>Trading Spot</ModName>
-  <Version>1.3.0.2</Version>
+  <ModName>Change Dresser</ModName>
+  <Version>1.3.3.0</Version>
   <SaveBreaking>False</SaveBreaking>
   <Host name="Github">
     <Owner>KiameV</Owner>
-    <Project>rimworld-tradingspot</Project>
+    <Project>rimworld-changedresser</Project>
     <DownloadFrom>ModSyncReleases</DownloadFrom>
     <Branch>master</Branch>
   </Host>
