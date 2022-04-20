@@ -108,11 +108,12 @@ namespace TradingSpot
         public override void Tick()
         {
             base.Tick();
-            if (this.count == 0)
+            if (count % 100 == 0)
             {
-                this.count = 1;
                 UpdateLords();
+                count = 0;
             }
+            ++count;
         }
 
         private void UpdateLords()
