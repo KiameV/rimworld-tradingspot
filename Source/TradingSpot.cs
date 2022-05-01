@@ -3,150 +3,97 @@ using System.Collections.Generic;
 using System.Reflection;
 using Verse;
 using Verse.AI.Group;
+using System;
 using RimWorld.Planet;
-using HarmonyLib;
 
 namespace TradingSpot
 {
-    [HarmonyPatch(typeof(LordMaker), "MakeNewLord")]
-    static class Patch_LordMaker_MakeNewLord
-    {
-        [HarmonyPriority(Priority.Last)]
-        static void Finalizer(ref Lord __result, Faction faction, LordJob lordJob, Map map, IEnumerable<Pawn> startingPawns)
-        {
-            if (faction == Faction.OfPlayer || __result == null || lordJob == null)
-            {
-                return;
-            }
-            UpdateLordJob(ref __result, lordJob, map);
-        }
-
-        public static void UpdateLordJob(ref Lord lord, LordJob lordJob, Map map)
-        {
-            FieldInfo field = null;
-            if (lordJob is LordJob_VisitColony ||
-                lordJob is LordJob_TradeWithColony)
-            {
-                if (ModFinder.HasHospitality ||
-                    (!Settings.VisitorsGoToTradeSpot && lordJob is LordJob_TradeWithColony))
-                {
-                    return;
-                }
-
-                if (field == null)
-                    field = lord.LordJob.GetType().GetField("chillSpot", BindingFlags.Instance | BindingFlags.NonPublic);
-
-                if (WorldComp.WC.TradingSpots.TryGetValue(map, out TradingSpot ts))
-                {
-                    field.SetValue(lord.LordJob, ts.Position);
-
-                    var toil = lord.CurLordToil;
-                    if (toil is LordToil_Travel t)
-                    {
-                        t.SetDestination(ts.Position);
-                        t.UpdateAllDuties();
-                    }
-                    else if (toil is LordToil_DefendPoint dt)
-                    {
-                        dt.SetDefendPoint(ts.Position);
-                        dt.UpdateAllDuties();
-                    }
-                }
-            }
-        }
-    }
-
-    static class ModFinder
-    {
-        private static bool? hasHospitality;
-        public static bool HasHospitality 
-        { 
-            get
-            {
-                if (hasHospitality == null) {
-                    foreach (ModMetaData d in ModsConfig.ActiveModsInLoadOrder)
-                    {
-                        hasHospitality = false;
-                        if (d.Name.EqualsIgnoreCase("hospitality"))
-                        {
-                            hasHospitality = true;
-                            break;
-                        }
-                    }
-                }
-                return hasHospitality.Value;
-            }
-        }
-    }
-
     public class TradingSpot : Building
     {
         private int count = 0;
+        private readonly bool hasHospitality;
+
         public TradingSpot()
         {
-
-        }
-
-        public override void SpawnSetup(Map map, bool respawningAfterLoad)
-        {
-            base.SpawnSetup(map, respawningAfterLoad);
-            var l = WorldComp.WC.TradingSpots;
-            if (l.TryGetValue(map, out TradingSpot ts) && ts?.Destroyed == false)
+            if (Current.Game.CurrentMap != null)
             {
-                Messages.Message("TradingSpot.AlreadyOnMap".Translate(), MessageTypeDefOf.NegativeEvent);
+                foreach (Building b in Current.Game.CurrentMap.listerBuildings.allBuildingsColonist)
+                {
+                    if (b.def.defName.Equals("TradingSpot"))
+                    {
+                        b.Destroy(DestroyMode.Vanish);
+                        Messages.Message("TradingSpot.AlreadyOnMap".Translate(), MessageTypeDefOf.NegativeEvent);
+                        break;
+                    }
+                }
             }
-            l[map] = this;
+
+            foreach (ModMetaData d in ModsConfig.ActiveModsInLoadOrder)
+            {
+                this.hasHospitality = false;
+                if (d.Name.EqualsIgnoreCase("hospitality"))
+                {
+                    this.hasHospitality = true;
+                    break;
+                }
+            }
         }
 
         public override void Tick()
         {
             base.Tick();
-            if (count % 60 == 0)
+            ++this.count;
+            if (this.count % 60 == 1)
             {
-                if (ModFinder.HasHospitality)
-                    return;
-                UpdateLords();
-                count = 0;
+                this.count = 0;
+                List<Lord> lords = base.Map.lordManager.lords;
+                IntVec3 position = base.Position;
+                foreach (var lord in lords)
+                {
+                    if (lord.LordJob is LordJob_TradeWithColony || this.CheckVisitor(lord.LordJob))
+                    {
+                        FieldInfo chillSpotFI = lord.LordJob.GetType().GetField("chillSpot", BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+                        chillSpotFI.SetValue(lord.LordJob, position);
+                        LordToil curLordToil = lord.CurLordToil;
+                        if (curLordToil is LordToil_Travel lordToil_Travel)
+                        {
+                            if (lordToil_Travel.FlagLoc != position)
+                            {
+                                lordToil_Travel.SetDestination(position);
+                                lordToil_Travel.UpdateAllDuties();
+                            }
+                        }
+                        else if (curLordToil is LordToil_DefendPoint lordToil_DefendPoint)
+                        {
+                            if (lordToil_DefendPoint.FlagLoc != position)
+                            {
+                                lordToil_DefendPoint.SetDefendPoint(position);
+                                lordToil_DefendPoint.UpdateAllDuties();
+                            }
+                        }
+                    }
+                }
             }
-            ++count;
         }
 
-        private void UpdateLords()
+        private bool CheckVisitor(LordJob lordJob)
         {
-            var l = base.Map.lordManager.lords;
-            for (int i = 0; i < l?.Count; ++i)
-            {
-                var lord = l[i];
-                if (lord != null && lord.LordJob != null)
-                    Patch_LordMaker_MakeNewLord.UpdateLordJob(ref lord, lord.LordJob, this.Map);
-            }
+            if (hasHospitality || !Settings.VisitorsGoToTradeSpot)
+                return false;
+            if (lordJob is LordJob_VisitColony)
+                return true;
+            return false;
         }
     }
-
     public class WorldComp : WorldComponent
     {
-        public static WorldComp WC;
-        public readonly Dictionary<Map, TradingSpot> TradingSpots = new Dictionary<Map, TradingSpot>();
-        public WorldComp(World world) : base(world)
-        {
-            WC = this;
-            TradingSpots.Clear();
-        }
-
+        public WorldComp(World world) : base(world) { }
         public override void FinalizeInit()
         {
             base.FinalizeInit();
             var mod = LoadedModManager.GetMod(typeof(SettingsController));
             var s = mod.GetSettings<Settings>();
             s.ApplyWorkSetting();
-        }
-        public override void ExposeData()
-        {
-            base.ExposeData();
-            if (Scribe.mode == LoadSaveMode.LoadingVars)
-            {
-                TradingSpots.Clear();
-            }
         }
     }
 }
