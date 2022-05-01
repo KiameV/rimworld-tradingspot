@@ -23,31 +23,33 @@ namespace TradingSpot
 
         public static void UpdateLordJob(ref Lord lord, LordJob lordJob, Map map)
         {
+            FieldInfo field = null;
             if (lordJob is LordJob_VisitColony ||
                 lordJob is LordJob_TradeWithColony)
             {
-                if (!Settings.VisitorsGoToTradeSpot && lordJob is LordJob_TradeWithColony)
+                if (ModFinder.HasHospitality ||
+                    (!Settings.VisitorsGoToTradeSpot && lordJob is LordJob_TradeWithColony))
                 {
                     return;
                 }
-                foreach (var ts in WorldComp.WC.TradingSpots)
-                {
-                    if (ts.Map == map)
-                    {
-                        FieldInfo field = lord.LordJob.GetType().GetField("chillSpot", BindingFlags.Instance | BindingFlags.NonPublic);
-                        field.SetValue(lord.LordJob, ts.Position);
 
-                        var toil = lord.CurLordToil;
-                        if (toil is LordToil_Travel t)
-                        {
-                            t.SetDestination(ts.Position);
-                            t.UpdateAllDuties();
-                        }
-                        else if (toil is LordToil_DefendPoint dt)
-                        {
-                            dt.SetDefendPoint(ts.Position);
-                            dt.UpdateAllDuties();
-                        }
+                if (field == null)
+                    field = lord.LordJob.GetType().GetField("chillSpot", BindingFlags.Instance | BindingFlags.NonPublic);
+
+                if (WorldComp.WC.TradingSpots.TryGetValue(map, out TradingSpot ts))
+                {
+                    field.SetValue(lord.LordJob, ts.Position);
+
+                    var toil = lord.CurLordToil;
+                    if (toil is LordToil_Travel t)
+                    {
+                        t.SetDestination(ts.Position);
+                        t.UpdateAllDuties();
+                    }
+                    else if (toil is LordToil_DefendPoint dt)
+                    {
+                        dt.SetDefendPoint(ts.Position);
+                        dt.UpdateAllDuties();
                     }
                 }
             }
@@ -89,27 +91,20 @@ namespace TradingSpot
         {
             base.SpawnSetup(map, respawningAfterLoad);
             var l = WorldComp.WC.TradingSpots;
-            for (int i = 0; i < l.Count; ++i)
+            if (l.TryGetValue(map, out TradingSpot ts) && ts?.Destroyed == false)
             {
-                if (map == l[i].Map)
-                {
-                    if (this != l[i])
-                    {
-                        l[i].Destroy(DestroyMode.Vanish);
-                        l[i] = this;
-                        Messages.Message("TradingSpot.AlreadyOnMap".Translate(), MessageTypeDefOf.NegativeEvent);
-                    }
-                    return;
-                }
+                Messages.Message("TradingSpot.AlreadyOnMap".Translate(), MessageTypeDefOf.NegativeEvent);
             }
-            l.Add(this);
+            l[map] = this;
         }
 
         public override void Tick()
         {
             base.Tick();
-            if (count % 100 == 0)
+            if (count % 60 == 0)
             {
+                if (ModFinder.HasHospitality)
+                    return;
                 UpdateLords();
                 count = 0;
             }
@@ -131,7 +126,7 @@ namespace TradingSpot
     public class WorldComp : WorldComponent
     {
         public static WorldComp WC;
-        public readonly List<TradingSpot> TradingSpots = new List<TradingSpot>();
+        public readonly Dictionary<Map, TradingSpot> TradingSpots = new Dictionary<Map, TradingSpot>();
         public WorldComp(World world) : base(world)
         {
             WC = this;
